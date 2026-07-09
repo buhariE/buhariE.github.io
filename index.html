@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Emmanuel Buhari — buhariE</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F5F6F3;
+    --paper-2:#ECEEEA;
+    --ink:#14181F;
+    --ink-soft:#4A5260;
+    --line:#DADFE1;
+    --terminal-bg:#0F141B;
+    --terminal-line:#232B36;
+    --amber:#E8A33D;
+    --amber-soft:#FBEBD2;
+    --green:#2FA36A;
+    --green-soft:#DFF3E8;
+    --blue:#4C7BE0;
+    --mono:'JetBrains Mono', ui-monospace, monospace;
+    --sans:'Inter', system-ui, sans-serif;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--sans);
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit;}
+
+  .wrap{max-width:920px;margin:0 auto;padding:0 24px;}
+
+  /* ---------- NAV ---------- */
+  nav{
+    position:sticky;top:0;z-index:50;
+    background:rgba(245,246,243,0.88);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+  }
+  nav .wrap{
+    display:flex;align-items:center;justify-content:space-between;
+    padding-top:14px;padding-bottom:14px;
+  }
+  .brand{
+    font-family:var(--mono);font-weight:700;font-size:15px;
+    display:flex;align-items:center;gap:8px;
+    letter-spacing:-0.02em;
+  }
+  .brand .dot{width:8px;height:8px;border-radius:50%;background:var(--green);display:inline-block;}
+  .navlinks{display:flex;gap:22px;font-family:var(--mono);font-size:13px;color:var(--ink-soft);}
+  .navlinks a{text-decoration:none;border-bottom:1px solid transparent;transition:border-color .15s, color .15s;}
+  .navlinks a:hover{color:var(--ink);border-color:var(--ink);}
+  @media (max-width:600px){.navlinks{display:none;}}
+
+  section{padding:64px 0;}
+  .eyebrow{
+    font-family:var(--mono);font-size:12px;letter-spacing:.08em;
+    text-transform:uppercase;color:var(--ink-soft);
+    display:flex;align-items:center;gap:10px;margin-bottom:18px;
+  }
+  .eyebrow::before{content:"//";color:var(--amber);font-weight:700;}
+  h2{font-family:var(--mono);font-size:22px;margin:0 0 28px;letter-spacing:-0.01em;}
+
+  /* ---------- HERO ---------- */
+  header.hero{padding:56px 0 40px;}
+  .hero-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:40px;align-items:center;}
+  @media (max-width:800px){.hero-grid{grid-template-columns:1fr;}}
+
+  .hero h1{
+    font-family:var(--mono);font-weight:800;
+    font-size:clamp(30px,4.4vw,44px);
+    line-height:1.08;letter-spacing:-0.02em;margin:0 0 16px;
+  }
+  .hero h1 .accent{color:var(--amber);}
+  .hero p.lede{color:var(--ink-soft);font-size:16px;max-width:46ch;margin:0 0 26px;}
+
+  .cta-row{display:flex;gap:12px;flex-wrap:wrap;}
+  .btn{
+    font-family:var(--mono);font-size:13px;font-weight:600;
+    padding:11px 18px;border-radius:6px;text-decoration:none;
+    display:inline-flex;align-items:center;gap:8px;
+    border:1px solid var(--ink);transition:transform .12s ease, box-shadow .12s ease;
+  }
+  .btn:hover{transform:translateY(-2px);}
+  .btn-solid{background:var(--ink);color:var(--paper);}
+  .btn-solid:hover{box-shadow:4px 4px 0 var(--amber);}
+  .btn-ghost{background:transparent;color:var(--ink);}
+  .btn-ghost:hover{box-shadow:4px 4px 0 var(--ink);}
+
+  /* terminal window */
+  .terminal{
+    background:var(--terminal-bg);border-radius:10px;
+    box-shadow:0 20px 45px -20px rgba(15,20,27,0.45);
+    overflow:hidden;border:1px solid #1C232D;
+  }
+  .terminal-bar{
+    display:flex;align-items:center;gap:7px;
+    padding:11px 14px;border-bottom:1px solid var(--terminal-line);
+  }
+  .terminal-bar span{width:10px;height:10px;border-radius:50%;display:inline-block;}
+  .terminal-bar span:nth-child(1){background:#E8695F;}
+  .terminal-bar span:nth-child(2){background:#E8B93D;}
+  .terminal-bar span:nth-child(3){background:#3DBE6C;}
+  .terminal-title{
+    margin-left:8px;font-family:var(--mono);font-size:11px;color:#7C8695;
+  }
+  .terminal-body{
+    padding:18px 18px 22px;font-family:var(--mono);font-size:13.5px;
+    color:#C7D0DB;min-height:230px;
+  }
+  .terminal-body .prompt{color:#5EE6A0;}
+  .terminal-body .cmd{color:#F5F7FA;}
+  .terminal-body .out{color:#8C97A6;margin:4px 0 14px;}
+  .terminal-body .out b{color:#E8A33D;font-weight:600;}
+  .caret{
+    display:inline-block;width:8px;height:15px;background:#5EE6A0;
+    vertical-align:middle;animation:blink 1s step-end infinite;
+  }
+  @keyframes blink{50%{opacity:0;}}
+
+  /* ---------- STAT STRIP ---------- */
+  .stats{
+    display:grid;grid-template-columns:repeat(4,1fr);
+    border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+  }
+  .stat{
+    padding:22px 16px;text-align:center;border-right:1px solid var(--line);
+  }
+  .stat:last-child{border-right:none;}
+  .stat .n{font-family:var(--mono);font-weight:800;font-size:26px;}
+  .stat .l{font-family:var(--mono);font-size:11px;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.06em;margin-top:4px;}
+  @media (max-width:640px){.stats{grid-template-columns:repeat(2,1fr);} .stat:nth-child(2){border-right:none;}}
+
+  /* ---------- STACK ---------- */
+  .stack-groups{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;}
+  @media (max-width:720px){.stack-groups{grid-template-columns:1fr;}}
+  .stack-group{
+    border:1px solid var(--line);border-radius:8px;padding:18px 18px 16px;background:#FBFBFA;
+  }
+  .stack-group h3{
+    font-family:var(--mono);font-size:12px;color:var(--ink-soft);
+    text-transform:uppercase;letter-spacing:.06em;margin:0 0 12px;
+  }
+  .chips{display:flex;flex-wrap:wrap;gap:7px;}
+  .chip{
+    font-family:var(--mono);font-size:12px;padding:5px 10px;border-radius:5px;
+    background:var(--paper-2);border:1px solid var(--line);
+  }
+
+  /* ---------- PROJECTS ---------- */
+  .modules{display:flex;flex-direction:column;gap:16px;}
+  .module{
+    border:1px solid var(--line);border-radius:9px;background:#FBFBFA;
+    padding:22px 22px 20px;
+    transition:box-shadow .15s ease, transform .15s ease, border-color .15s ease;
+  }
+  .module:hover{box-shadow:5px 5px 0 var(--amber);transform:translate(-2px,-2px);border-color:var(--ink);}
+  .module-head{
+    display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap;margin-bottom:6px;
+  }
+  .module-import{font-family:var(--mono);font-size:13px;color:var(--ink-soft);}
+  .module-import b{color:var(--ink);font-weight:700;}
+  .module-import .path{color:var(--blue);}
+  .module-links{display:flex;gap:10px;flex-shrink:0;}
+  .module-links a{
+    font-family:var(--mono);font-size:12px;text-decoration:none;
+    color:var(--ink-soft);border-bottom:1px dashed var(--ink-soft);
+  }
+  .module-links a:hover{color:var(--ink);border-color:var(--ink);}
+  .module p.desc{margin:10px 0 12px;color:var(--ink-soft);font-size:14.5px;max-width:70ch;}
+  .module ul{margin:0 0 14px;padding-left:18px;color:var(--ink-soft);font-size:14px;}
+  .module ul li{margin-bottom:5px;}
+  .module-footer{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;}
+  .badges{display:flex;flex-wrap:wrap;gap:6px;}
+  .badge{
+    font-family:var(--mono);font-size:11px;padding:3px 8px;border-radius:4px;
+    background:var(--paper-2);border:1px solid var(--line);color:var(--ink-soft);
+  }
+  .badge-pass{
+    background:var(--green-soft);border-color:#BFE6D2;color:#1E7A4C;
+    font-weight:600;
+  }
+
+  /* ---------- LOG (experience) ---------- */
+  .commit-log{border-left:2px solid var(--line);margin-left:6px;}
+  .commit{position:relative;padding:0 0 30px 26px;}
+  .commit:last-child{padding-bottom:0;}
+  .commit::before{
+    content:"";position:absolute;left:-7px;top:3px;
+    width:12px;height:12px;border-radius:50%;
+    background:var(--paper);border:2px solid var(--amber);
+  }
+  .commit .hash{font-family:var(--mono);font-size:12px;color:var(--blue);}
+  .commit .msg{font-family:var(--mono);font-weight:700;font-size:14.5px;margin:4px 0 2px;}
+  .commit .meta{font-family:var(--mono);font-size:11.5px;color:var(--ink-soft);margin-bottom:8px;}
+  .commit .body{font-size:14px;color:var(--ink-soft);max-width:66ch;}
+  .commit .body li{margin-bottom:5px;}
+  .commit .body ul{margin:8px 0 0;padding-left:18px;}
+
+  /* ---------- EDUCATION ---------- */
+  .edu-card{
+    border:1px solid var(--line);border-radius:9px;background:#FBFBFA;padding:22px;
+    display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;
+  }
+  .edu-card .school{font-family:var(--mono);font-weight:700;font-size:16px;}
+  .edu-card .deg{color:var(--ink-soft);font-size:14px;margin-top:4px;}
+  .edu-card .gpa{font-family:var(--mono);text-align:right;}
+  .edu-card .gpa .n{font-size:22px;font-weight:800;}
+  .edu-card .gpa .l{font-size:11px;color:var(--ink-soft);text-transform:uppercase;}
+  .courses{font-size:13px;color:var(--ink-soft);margin-top:14px;}
+
+  /* ---------- CONNECT ---------- */
+  footer{border-top:1px solid var(--line);padding:60px 0 40px;}
+  .connect-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:32px;}
+  @media (max-width:700px){.connect-grid{grid-template-columns:1fr;}}
+  .socket{
+    border:1px solid var(--line);border-radius:8px;padding:16px 18px;
+    display:flex;align-items:center;justify-content:space-between;text-decoration:none;
+    background:#FBFBFA;transition:border-color .15s, transform .15s;
+  }
+  .socket:hover{border-color:var(--ink);transform:translateY(-2px);}
+  .socket .label{font-family:var(--mono);font-size:11px;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.05em;}
+  .socket .val{font-family:var(--mono);font-size:13.5px;font-weight:600;margin-top:3px;}
+  .socket .status{width:8px;height:8px;border-radius:50%;background:var(--green);flex-shrink:0;}
+  .foot-note{font-family:var(--mono);font-size:12px;color:var(--ink-soft);text-align:center;}
+
+  ::selection{background:var(--amber);color:var(--ink);}
+
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    .caret{animation:none;opacity:1;}
+    .reveal{opacity:1 !important;transform:none !important;transition:none !important;}
+  }
+
+  .reveal{opacity:0;transform:translateY(14px);transition:opacity .5s ease, transform .5s ease;}
+  .reveal.in{opacity:1;transform:translateY(0);}
+
+  :focus-visible{outline:2px solid var(--amber);outline-offset:2px;}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <div class="brand"><span class="dot"></span>buhariE</div>
+    <div class="navlinks">
+      <a href="#stack">stack</a>
+      <a href="#modules">modules</a>
+      <a href="#log">log</a>
+      <a href="#connect">connect</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="eyebrow">status: building</div>
+      <h1>Emmanuel Buhari<br><span class="accent">writes systems</span> that talk to each other.</h1>
+      <p class="lede">CS student at the University of Calgary building full-stack, distributed, and AI-integrated applications — from event-driven game platforms to LLM-powered study tools.</p>
+      <div class="cta-row">
+        <a class="btn btn-solid" href="https://github.com/buhariE" target="_blank" rel="noopener">View GitHub ↗</a>
+        <a class="btn btn-ghost" href="mailto:manuelbuhari@gmail.com">Say hello</a>
+        <a class="btn btn-ghost" href="https://linkedin.com/in/emmanuel-buhari" target="_blank" rel="noopener">LinkedIn</a>
+      </div>
+    </div>
+
+    <div class="terminal">
+      <div class="terminal-bar">
+        <span></span><span></span><span></span>
+        <span class="terminal-title">buhariE@portfolio: ~</span>
+      </div>
+      <div class="terminal-body" id="termBody"></div>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="stats reveal">
+    <div class="stat"><div class="n">4</div><div class="l">shipped projects</div></div>
+    <div class="stat"><div class="n">237+</div><div class="l">tests passing</div></div>
+    <div class="stat"><div class="n">3.64</div><div class="l">GPA / 4.0</div></div>
+    <div class="stat"><div class="n">2028</div><div class="l">expected grad</div></div>
+  </div>
+</div>
+
+<section id="stack">
+  <div class="wrap">
+    <div class="eyebrow">01 — dependencies</div>
+    <h2>$ cat package.json</h2>
+    <div class="stack-groups">
+      <div class="stack-group reveal">
+        <h3>Languages</h3>
+        <div class="chips">
+          <span class="chip">Python</span><span class="chip">Java</span><span class="chip">C</span>
+          <span class="chip">JavaScript</span><span class="chip">TypeScript</span><span class="chip">SQL</span>
+          <span class="chip">HTML/CSS</span><span class="chip">Assembly</span>
+        </div>
+      </div>
+      <div class="stack-group reveal">
+        <h3>Frameworks &amp; Libraries</h3>
+        <div class="chips">
+          <span class="chip">React</span><span class="chip">Node.js</span><span class="chip">Express</span>
+          <span class="chip">FastAPI</span><span class="chip">JavaFX</span><span class="chip">Flutter</span>
+          <span class="chip">MySQL</span><span class="chip">Jackson</span><span class="chip">JUnit 5</span>
+          <span class="chip">Tailwind</span><span class="chip">spaCy</span>
+        </div>
+      </div>
+      <div class="stack-group reveal">
+        <h3>Tooling</h3>
+        <div class="chips">
+          <span class="chip">Git</span><span class="chip">GitHub</span><span class="chip">VS Code</span>
+          <span class="chip">IntelliJ</span><span class="chip">Linux</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="modules">
+  <div class="wrap">
+    <div class="eyebrow">02 — projects</div>
+    <h2>$ ls ./modules</h2>
+    <div class="modules">
+
+      <article class="module reveal">
+        <div class="module-head">
+          <div class="module-import"><b>import</b> { DeepNotes } <b>from</b> <span class="path">'@buhariE/obsidian-ai-tutor'</span></div>
+          <div class="module-links"><a href="https://github.com/buhariE" target="_blank" rel="noopener">source ↗</a></div>
+        </div>
+        <p class="desc">A production-ready Obsidian plugin that acts as a Socratic tutor — it generates recursive follow-up questions from your notes to reinforce active recall.</p>
+        <ul>
+          <li>Integrates cloud (Gemini) and local (Ollama) LLM providers, so inference can run fully offline and privacy-preserving</li>
+          <li>OCR + vision-model parsing extracts context from embedded images and Excalidraw drawings</li>
+          <li>Spaced-repetition scheduler adjusts review intervals from self-evaluated answer scores</li>
+        </ul>
+        <div class="module-footer">
+          <div class="badges">
+            <span class="badge">TypeScript</span><span class="badge">Obsidian API</span>
+            <span class="badge">Gemini</span><span class="badge">Ollama</span><span class="badge">esbuild</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="module reveal">
+        <div class="module-head">
+          <div class="module-import"><b>import</b> { PlatformCore } <b>from</b> <span class="path">'@buhariE/gamedino'</span></div>
+          <div class="module-links"><a href="https://github.com/buhariE" target="_blank" rel="noopener">source ↗</a></div>
+        </div>
+        <p class="desc">Multiplayer game platform supporting TicTacToe, ConnectFour, and Checkers. Led the Platform Core sub-team across 3 iterations for a 25-student, 5-team build.</p>
+        <ul>
+          <li>Designed the event-driven architecture and cross-team interface contracts between 5 sub-teams</li>
+          <li><b>PlatformCore.java</b> (905 lines, 78+ commits) — SHA-256 auth, 5-state player navigation tracking, pub/sub EventBus routing, matchmaking, forfeit handling, leaderboard sync</li>
+          <li>JSON-backed persistence via Jackson: CredentialsRepository, UserRepository (DTO serialization), heartbeat-based PresenceService</li>
+        </ul>
+        <div class="module-footer">
+          <div class="badges">
+            <span class="badge">Java</span><span class="badge">JavaFX</span><span class="badge">WebSocket</span>
+            <span class="badge">Jackson</span><span class="badge">JUnit 5</span>
+            <span class="badge badge-pass">✓ 237 tests passing / 21 classes</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="module reveal">
+        <div class="module-head">
+          <div class="module-import"><b>import</b> { InventoryAssist } <b>from</b> <span class="path">'@buhariE/inventory-assist'</span></div>
+          <div class="module-links"><a href="https://github.com/buhariE" target="_blank" rel="noopener">source ↗</a></div>
+        </div>
+        <p class="desc">Full-stack inventory management system with dual-role access for Admin and Stock Clerk — 25 commits as primary full-stack developer.</p>
+        <ul>
+          <li>REST API with 11 route modules: JWT auth, CRUD, purchase orders, reorder suggestions, reporting, Stripe billing</li>
+          <li>Admin portal: bulk CSV/XLSX product import, 3-step purchase order workflow, bar-chart reporting</li>
+          <li>Clerk portal: cart-based checkout with live inventory preview, region-driven tax rules, XLSX/PDF export</li>
+        </ul>
+        <div class="module-footer">
+          <div class="badges">
+            <span class="badge">React</span><span class="badge">Node.js</span><span class="badge">Express</span>
+            <span class="badge">MySQL</span><span class="badge">JWT</span><span class="badge">Stripe</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="module reveal">
+        <div class="module-head">
+          <div class="module-import"><b>import</b> { BMATS } <b>from</b> <span class="path">'@buhariE/bmats'</span></div>
+          <div class="module-links"><a href="https://github.com/buhariE/BMATS" target="_blank" rel="noopener">source ↗</a></div>
+        </div>
+        <p class="desc">Bias Mitigation Application Tracking System — anonymizes resumes to reduce unconscious hiring bias.</p>
+        <ul>
+          <li>spaCy NER strips PII before a resume ever reaches a reviewer</li>
+          <li>Semantic matching via sentence-transformers ranks candidates against jobs by skill relevance, not surface keywords</li>
+          <li>FastAPI + SQLModel/SQLite backend for uploads, listings, and application management</li>
+        </ul>
+        <div class="module-footer">
+          <div class="badges">
+            <span class="badge">Python</span><span class="badge">FastAPI</span><span class="badge">React</span>
+            <span class="badge">SQLite</span><span class="badge">spaCy</span>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<section id="log">
+  <div class="wrap">
+    <div class="eyebrow">03 — experience</div>
+    <h2>$ git log --oneline --graph</h2>
+    <div class="commit-log">
+
+      <div class="commit reveal">
+        <div class="hash">a3f9c1e</div>
+        <div class="msg">Junior Outreach Executive — UCalgary AI Club</div>
+        <div class="meta">Calgary, AB · Sept 2025 – Present · Volunteer</div>
+        <div class="body">
+          <ul>
+            <li>Builds and maintains sponsor relationships to secure partnerships for campus AI events</li>
+            <li>Coordinates sponsors, faculty, and student teams to plan and run AI workshops</li>
+            <li>Supports hands-on coding sessions and AI tutorials for student skill development</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="commit reveal">
+        <div class="hash">7d02b48</div>
+        <div class="msg">UI/UX Designer — AARODS Homes &amp; Constructions</div>
+        <div class="meta">Lagos, Nigeria · Jan 2021 – Jul 2022</div>
+        <div class="body">
+          <ul>
+            <li>Designed high-fidelity wireframes and interactive mockups in Adobe XD from stakeholder requirements</li>
+            <li>Built functional Flutter prototypes to deliver MVPs for rapid client-feedback iteration</li>
+            <li>Refined UI/UX with dev and business teams across multiple product cycles</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section id="education">
+  <div class="wrap">
+    <div class="eyebrow">04 — education</div>
+    <h2>$ cat transcript.md</h2>
+    <div class="edu-card reveal">
+      <div>
+        <div class="school">University of Calgary</div>
+        <div class="deg">B.Sc. Computer Science · Expected 2028</div>
+        <div class="courses">Data Structures · Algorithms · Operating Systems · Database Systems · Imperative &amp; Functional Programming Paradigms · Software Engineering</div>
+      </div>
+      <div class="gpa">
+        <div class="n">3.64</div>
+        <div class="l">GPA / 4.0</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer id="connect">
+  <div class="wrap">
+    <div class="eyebrow">05 — connect</div>
+    <h2>$ netstat --open-sockets</h2>
+    <div class="connect-grid">
+      <a class="socket reveal" href="https://github.com/buhariE" target="_blank" rel="noopener">
+        <div><div class="label">github</div><div class="val">buhariE</div></div>
+        <span class="status"></span>
+      </a>
+      <a class="socket reveal" href="https://linkedin.com/in/emmanuel-buhari" target="_blank" rel="noopener">
+        <div><div class="label">linkedin</div><div class="val">emmanuel-buhari</div></div>
+        <span class="status"></span>
+      </a>
+      <a class="socket reveal" href="mailto:manuelbuhari@gmail.com">
+        <div><div class="label">email</div><div class="val">manuelbuhari@gmail.com</div></div>
+        <span class="status"></span>
+      </a>
+    </div>
+    <div class="foot-note">© 2026 Emmanuel Buhari · built with too much coffee and one too many terminal themes</div>
+  </div>
+</footer>
+
+<script>
+  // Typed terminal intro
+  const lines = [
+    { type:'cmd', text:'whoami' },
+    { type:'out', text:'Emmanuel Buhari — CS @ University of Calgary' },
+    { type:'cmd', text:'cat focus.md' },
+    { type:'out', text:'Full-stack + distributed systems + <b>AI-integrated</b> apps.\nJava · Python · TypeScript.' },
+    { type:'cmd', text:'./run --project=GameDino' },
+    { type:'out', text:'<b>237 passed</b>, 0 failed  (21 test classes)' },
+  ];
+
+  const termBody = document.getElementById('termBody');
+  let li = 0, ci = 0;
+
+  function typeNext(){
+    if(li >= lines.length){
+      const c = document.createElement('span');
+      c.className='caret';
+      termBody.appendChild(c);
+      return;
+    }
+    const line = lines[li];
+    if(ci === 0){
+      const wrap = document.createElement('div');
+      if(line.type==='cmd'){
+        wrap.innerHTML = '<span class="prompt">$</span> <span class="cmd" id="active"></span>';
+      } else {
+        wrap.innerHTML = '<div class="out" id="active"></div>';
+      }
+      termBody.appendChild(wrap);
+    }
+    const active = document.getElementById('active');
+    const full = line.text;
+    if(ci <= full.length){
+      // handle simple <b> tags atomically for 'out' lines with html
+      if(line.type==='out' && full.includes('<b>')){
+        active.innerHTML = full;
+        ci = full.length + 1;
+      } else {
+        active.textContent = full.slice(0, ci);
+        ci++;
+      }
+      const delay = line.type==='cmd' ? 32 : 6;
+      setTimeout(typeNext, ci > full.length ? 260 : delay);
+      return;
+    }
+    active.removeAttribute('id');
+    li++; ci = 0;
+    setTimeout(typeNext, 120);
+  }
+
+  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+    lines.forEach(line=>{
+      const wrap = document.createElement('div');
+      if(line.type==='cmd'){
+        wrap.innerHTML = '<span class="prompt">$</span> <span class="cmd">'+line.text+'</span>';
+      } else {
+        wrap.innerHTML = '<div class="out">'+line.text+'</div>';
+      }
+      termBody.appendChild(wrap);
+    });
+  } else {
+    typeNext();
+  }
+
+  // Scroll reveal
+  const revealEls = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
+    });
+  }, { threshold: 0.15 });
+  revealEls.forEach(el=>io.observe(el));
+</script>
+
+</body>
+</html>
