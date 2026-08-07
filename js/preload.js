@@ -9,7 +9,7 @@
 (function () {
   var root = document.documentElement;
 
-  /* 1. saved theme */
+  /* 1. saved theme — overrides the data-theme="dark" default in the markup */
   try {
     var saved = localStorage.getItem('eb-theme');
     if (saved === 'dark' || saved === 'light') root.setAttribute('data-theme', saved);

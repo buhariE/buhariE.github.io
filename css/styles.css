@@ -40,9 +40,13 @@
   --cursor-shadow: rgba(21,33,44,0.55);
   --grid:      rgba(47,102,153,0.07);
   --shadow:    0 1px 0 rgba(21,33,44,0.04), 0 18px 40px -28px rgba(21,33,44,0.35);
+  color-scheme: light;
 }
+/* Fallback only. The markup ships data-theme="dark" on <html>, so the
+   attribute blocks below normally decide the theme. */
 @media (prefers-color-scheme: dark) {
   :root {
+    color-scheme: dark;
     --bg:        #08111B;
     --sheet:     #0C1926;
     --ink:       #D7E4F0;
@@ -60,11 +64,13 @@
 }
 /* explicit toggle overrides win in both directions */
 :root[data-theme="light"] {
+  color-scheme: light;
   --bg:#EEF2F6; --sheet:#F9FBFD; --ink:#15212C; --ink-soft:#566675; --ink-faint:#8695A3;
   --line:#C4D0DC; --line-soft:#DBE3EB; --accent:#2F6699; --accent-ink:#2F6699; --on-accent:#ffffff; --cursor-shadow:rgba(21,33,44,0.55);
   --grid:rgba(47,102,153,0.07); --shadow:0 1px 0 rgba(21,33,44,0.04), 0 18px 40px -28px rgba(21,33,44,0.35);
 }
 :root[data-theme="dark"] {
+  color-scheme: dark;
   --bg:#08111B; --sheet:#0C1926; --ink:#D7E4F0; --ink-soft:#8AA0B4; --ink-faint:#5E7186;
   --line:#21384C; --line-soft:#17293A; --accent:#6FB0E8; --accent-ink:#8FC4F2; --on-accent:#08111B; --cursor-shadow:rgba(215,228,240,0.5);
   --grid:rgba(111,176,232,0.08); --shadow:0 18px 50px -30px rgba(0,0,0,0.85);
@@ -137,14 +143,20 @@ body {
 }
 .tb-icon:hover { color: var(--accent-ink); background: color-mix(in srgb, var(--accent) 9%, transparent); }
 .tb-icon:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
-.tb-icon svg { width: 17px; height: 17px; display: block; }
+/* no `display` here: .tb-icon is a flex container, so its children are
+   blockified anyway, and a `display` on this selector (0,1,1) would outrank
+   the .ico-* swap rules below and leak both icons at once. */
+.tb-icon svg { width: 17px; height: 17px; }
 .tb-toggle { border-left-width: 1px; }
 
-/* icon swap: show the mode you can switch TO */
-.ico-sun { display: none; } .ico-moon { display: block; }
-@media (prefers-color-scheme: dark) { .ico-sun { display: block; } .ico-moon { display: none; } }
-:root[data-theme="dark"] .ico-sun { display: block; } :root[data-theme="dark"] .ico-moon { display: none; }
-:root[data-theme="light"] .ico-sun { display: none; } :root[data-theme="light"] .ico-moon { display: block; }
+/* Icon swap: show the mode you can switch TO.
+   Scoped under .tb-icon so these stay above `.tb-icon svg` in specificity.
+   Default is dark (see data-theme on <html>), so the sun shows by default. */
+.tb-icon .ico-sun,
+.tb-icon .ico-moon { display: none; }
+.tb-icon .ico-sun { display: block; }
+:root[data-theme="light"] .tb-icon .ico-sun { display: none; }
+:root[data-theme="light"] .tb-icon .ico-moon { display: block; }
 
 @media (max-width: 600px) { .tb-disc, .tb-actions-k { display: none; } .tb-icon { width: 44px; } }
 

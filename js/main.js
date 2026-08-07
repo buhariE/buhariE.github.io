@@ -20,10 +20,8 @@
   if (!btn) return;
 
   function currentIsDark() {
-    var attr = root.getAttribute('data-theme');
-    if (attr === 'dark') return true;
-    if (attr === 'light') return false;
-    return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    // dark is the default, so anything other than an explicit "light" is dark
+    return root.getAttribute('data-theme') !== 'light';
   }
 
   btn.addEventListener('click', function () {
