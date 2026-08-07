@@ -606,9 +606,11 @@ tbody tr.is-dim { opacity: 0.6; }
 .cta h3 { font-size: 1.05rem; }
 .cta p { margin-top: 6px; font-size: 14px; color: var(--muted-fg); max-width: 52ch; }
 .cta-code { display: grid; gap: 6px; }
+/* wrap rather than nowrap, so long commands cannot widen a narrow viewport */
 .cta-code code {
   padding: 7px 12px; border: 1px solid var(--border); border-radius: var(--radius-sm);
-  background: var(--card); font-size: 12.5px; color: var(--foreground); white-space: nowrap;
+  background: var(--card); font-size: 12.5px; color: var(--foreground);
+  white-space: pre-wrap; overflow-wrap: anywhere;
 }
 
 /* --------------------------------------------------------------------------

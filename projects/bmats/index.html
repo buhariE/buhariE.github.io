@@ -1,0 +1,510 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BMATS — Project Showcase</title>
+<meta name="description" content="BMATS — Bias Mitigation for Applicant Tracking Systems. A FastAPI service that parses resumes, strips personally identifiable information with spaCy NER, and scores candidates against jobs with a cross-encoder.">
+
+<link rel="icon" type="image/png" href="assets/logo3.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+
+<script src="js/main.js" defer></script>
+</head>
+<body>
+
+<!-- ============================================================ icon sprite -->
+<svg class="sprite" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol viewBox="0 0 24 24" id="i-brief"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></symbol>
+    <symbol viewBox="0 0 24 24" id="i-user"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></symbol>
+    <symbol viewBox="0 0 24 24" id="i-file"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7z"/><path d="M14 2v6h6"/><path d="M9 15h6"/><path d="M9 11h3"/></symbol>
+    <symbol viewBox="0 0 24 24" id="i-chart"><path d="M3 3v18h18"/><path d="m7 15 4-5 3 3 5-7"/></symbol>
+    <symbol viewBox="0 0 24 24" id="i-shield"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></symbol>
+    <symbol viewBox="0 0 24 24" id="i-eye-off"><path d="M9.9 4.24A9.1 9.1 0 0 1 12 4c7 0 10 8 10 8a18.5 18.5 0 0 1-2.16 3.19"/><path d="M6.6 6.6A18.6 18.6 0 0 0 2 12s3 8 10 8a9.1 9.1 0 0 0 5.4-1.6"/><path d="m2 2 20 20"/><path d="M14.12 14.12a3 3 0 1 1-4.24-4.24"/></symbol>
+    <symbol viewBox="0 0 24 24" id="i-scan"><path d="M3 7V5a2 2 0 0 1 2-2h2"/><path d="M17 3h2a2 2 0 0 1 2 2v2"/><path d="M21 17v2a2 2 0 0 1-2 2h-2"/><path d="M7 21H5a2 2 0 0 1-2-2v-2"/><path d="M7 12h10"/></symbol>
+    <symbol viewBox="0 0 24 24" id="i-cpu"><rect x="5" y="5" width="14" height="14" rx="2"/><rect x="9" y="9" width="6" height="6"/><path d="M9 2v3M15 2v3M9 19v3M15 19v3M2 9h3M2 15h3M19 9h3M19 15h3"/></symbol>
+    <symbol viewBox="0 0 24 24" id="i-db"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/><path d="M3 12c0 1.66 4 3 9 3s9-1.34 9-3"/></symbol>
+    <symbol viewBox="0 0 24 24" id="i-bolt"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></symbol>
+    <symbol viewBox="0 0 24 24" id="i-arrow-right"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></symbol>
+    <symbol viewBox="0 0 24 24" id="i-arrow-down"><path d="M12 5v14"/><path d="m5 12 7 7 7-7"/></symbol>
+    <symbol viewBox="0 0 24 24" id="i-github"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></symbol>
+    <symbol viewBox="0 0 24 24" id="i-external"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></symbol>
+    <symbol viewBox="0 0 24 24" id="i-menu"><path d="M4 6h16"/><path d="M4 12h16"/><path d="M4 18h16"/></symbol>
+    <symbol viewBox="0 0 24 24" id="i-trophy"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2z"/></symbol>
+  </defs>
+</svg>
+
+<!-- ================================================================== nav -->
+<header class="nav" id="nav">
+  <a class="nav-brand" href="#top">
+    <img src="assets/logo3.png" alt="" width="30" height="30">
+    <span>BMATS</span>
+  </a>
+  <nav class="nav-links" id="navLinks" aria-label="Sections">
+    <a href="#problem">Problem</a>
+    <a href="#redact">Anonymizer</a>
+    <a href="#pipeline">Pipeline</a>
+    <a href="#preview">Live UI</a>
+    <a href="#api">API</a>
+    <a href="#stack">Stack</a>
+  </nav>
+  <div class="nav-actions">
+    <a class="btn btn-ghost" href="https://github.com/noahnghg/BMATS" target="_blank" rel="noopener">
+      <svg class="ico"><use href="#i-github"/></svg><span>Source</span>
+    </a>
+    <button class="nav-toggle" id="navToggle" type="button" aria-label="Toggle navigation" aria-expanded="false">
+      <svg class="ico"><use href="#i-menu"/></svg>
+    </button>
+  </div>
+</header>
+
+<!-- ================================================================ hero -->
+<section class="hero" id="top">
+  <div class="wrap hero-grid">
+    <div class="hero-copy">
+      <span class="pill"><svg class="ico"><use href="#i-trophy"/></svg> Hackathon project · Bias mitigation</span>
+      <h1>Screening that <em>cannot see your name</em>.</h1>
+      <p class="lede">
+        Resume screening rewards keyword stuffing and carries every bias the reader brought with
+        them. BMATS strips the identity out of a resume before anything scores it, then matches
+        candidates to roles on meaning rather than string overlap.
+      </p>
+      <div class="hero-btns">
+        <a class="btn btn-primary" href="#redact">See the anonymizer <svg class="ico"><use href="#i-arrow-right"/></svg></a>
+        <a class="btn btn-outline" href="https://devpost.com/software/hright" target="_blank" rel="noopener">
+          <svg class="ico"><use href="#i-external"/></svg> Devpost
+        </a>
+      </div>
+      <div class="hero-tech">
+        <span>Python</span><span>FastAPI</span><span>spaCy</span><span>sentence-transformers</span>
+        <span>SQLModel</span><span>React</span><span>Vite</span>
+      </div>
+    </div>
+
+    <div class="hero-card">
+      <div class="hero-card-top">
+        <img src="assets/logo3.png" alt="BMATS logo" width="52" height="52">
+        <div>
+          <strong>BMATS</strong>
+          <span>Bias Mitigation ATS</span>
+        </div>
+      </div>
+      <dl class="hero-stats">
+        <div><dt>PII classes stripped</dt><dd>3</dd></div>
+        <div><dt>Skill lexicon</dt><dd>110</dd></div>
+        <div><dt>Endpoints</dt><dd>13</dd></div>
+        <div><dt>Routers</dt><dd>4</dd></div>
+        <div><dt>ML models</dt><dd>2</dd></div>
+        <div><dt>Score range</dt><dd>0–1</dd></div>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================== problem -->
+<section class="section" id="problem">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-kicker">The problem</span>
+      <h2>A name changes the outcome before the skills are read</h2>
+      <p>Two failures compound in ordinary applicant tracking: identity leaks into the judgement,
+         and keyword matching mistakes vocabulary for ability. BMATS attacks both, in that order.</p>
+    </div>
+    <div class="prob-grid">
+      <article class="prob">
+        <svg class="ico ico-lg"><use href="#i-eye-off"/></svg>
+        <h3>Identity leaks in</h3>
+        <p>A name, an email domain, a phone area code — each is a signal a reader cannot fully
+           unsee. The fix is structural: remove them from the text before scoring happens, not
+           ask the reader to ignore them.</p>
+      </article>
+      <article class="prob">
+        <svg class="ico ico-lg"><use href="#i-scan"/></svg>
+        <h3>Keywords beat substance</h3>
+        <p>Exact-match filters reward whoever mirrored the job posting's wording. A candidate who
+           wrote "built distributed services" loses to one who pasted "microservices" — same skill,
+           different vocabulary.</p>
+      </article>
+      <article class="prob">
+        <svg class="ico ico-lg"><use href="#i-shield"/></svg>
+        <h3>The ordering matters</h3>
+        <p>Anonymizing after scoring is theatre. In BMATS the redacted text is what gets stored and
+           what the model sees — the original never reaches the matcher at all.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================= redactor -->
+<section class="section section-alt" id="redact">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-kicker">Anonymizer</span>
+      <h2>Watch the identity come out</h2>
+      <p>spaCy's <code>en_core_web_sm</code> NER finds <code>PERSON</code> entities; two regexes catch
+         emails and phone numbers. Redactions are applied back-to-front so earlier character offsets
+         stay valid. Toggle it below — this runs the same rules the service does.</p>
+    </div>
+
+    <div class="redact">
+      <div class="redact-bar">
+        <div class="redact-file"><svg class="ico"><use href="#i-file"/></svg><span>candidate_resume.pdf</span></div>
+        <div class="redact-meta">
+          <span class="redact-count" id="redactCount">0 identifiers removed</span>
+          <button class="btn btn-primary btn-sm" id="redactBtn" type="button" aria-pressed="false">
+            <svg class="ico"><use href="#i-eye-off"/></svg><span id="redactLabel">Anonymize</span>
+          </button>
+        </div>
+      </div>
+
+      <pre class="doc" id="doc"><code><span class="pii" data-kind="name" data-token="[NAME REDACTED]">Marcus Adeyemi Okonkwo</span>
+<span class="pii" data-kind="email" data-token="[EMAIL REDACTED]">m.okonkwo@gmail.com</span>  ·  <span class="pii" data-kind="phone" data-token="[PHONE REDACTED]">+1 (403) 555-0182</span>  ·  Calgary, AB
+
+EXPERIENCE
+Backend Developer Intern, Nordwave Systems
+• Engineered a Python service that processed 40k events/day
+• Built REST endpoints with FastAPI and PostgreSQL
+• Reduced p95 latency by 38% through query optimisation
+
+Research Assistant — supervised by <span class="pii" data-kind="name" data-token="[NAME REDACTED]">Dr. Helen Vasquez</span>
+• Implemented transformer fine-tuning experiments in PyTorch
+• Automated the data pipeline with Airflow and Docker
+
+EDUCATION
+University of Calgary — BSc Computer Science
+
+SKILLS
+python · fastapi · postgresql · docker · pytorch · airflow · git</code></pre>
+
+      <div class="redact-legend">
+        <span><i class="dot dot-name"></i>PERSON — spaCy NER</span>
+        <span><i class="dot dot-email"></i>email — regex</span>
+        <span><i class="dot dot-phone"></i>phone — regex</span>
+      </div>
+    </div>
+
+    <div class="note-row">
+      <div class="note">
+        <h4>What survives on purpose</h4>
+        <p>Skills, metrics, employers and institutions stay. The goal is not a blank page — it is a
+           document that still describes capability while saying nothing about who wrote it.</p>
+      </div>
+      <div class="note note-warn">
+        <h4>Where it gets hard</h4>
+        <p>The redaction loop applies ranges in reverse order, which is exact for disjoint spans but
+           can misalign when an entity overlaps a regex match — a name inside an email address, for
+           instance. The code says so in its own comments rather than pretending otherwise.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================= pipeline -->
+<section class="section" id="pipeline">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-kicker">Pipeline</span>
+      <h2>Upload to score, end to end</h2>
+      <p>One POST carries a PDF through five stages before a number exists.</p>
+    </div>
+
+    <ol class="pipe">
+      <li class="pipe-step">
+        <span class="pipe-n">01</span>
+        <h3>Parse</h3>
+        <p><code>pdfplumber</code> pulls raw text out of the uploaded PDF.</p>
+        <span class="pipe-tag">utils/parser.py</span>
+      </li>
+      <li class="pipe-step is-key">
+        <span class="pipe-n">02</span>
+        <h3>Anonymize</h3>
+        <p>NER plus regex redaction. Only the redacted text is persisted.</p>
+        <span class="pipe-tag">utils/anonymizer.py</span>
+      </li>
+      <li class="pipe-step">
+        <span class="pipe-n">03</span>
+        <h3>Extract</h3>
+        <p>Skills matched against a 110-term lexicon; experience found by action verbs; education by
+           institution keywords.</p>
+        <span class="pipe-tag">utils/semantics.py</span>
+      </li>
+      <li class="pipe-step">
+        <span class="pipe-n">04</span>
+        <h3>Match</h3>
+        <p>A cross-encoder reads the job text and candidate text <em>together</em> and returns one
+           similarity score.</p>
+        <span class="pipe-tag">stsb-roberta-base</span>
+      </li>
+      <li class="pipe-step">
+        <span class="pipe-n">05</span>
+        <h3>Store</h3>
+        <p>Application row written with its score via SQLModel on SQLite.</p>
+        <span class="pipe-tag">core/database.py</span>
+      </li>
+    </ol>
+
+    <div class="two-up">
+      <div class="card">
+        <div class="card-head"><svg class="ico"><use href="#i-cpu"/></svg><h4>Why a cross-encoder, not embeddings</h4></div>
+        <div class="card-body">
+          <p>Bi-encoders embed each document separately and compare vectors — fast, but the two texts
+             never meet. A cross-encoder feeds the pair through the model together, so the job's
+             wording conditions how the resume is read. Slower per comparison, materially better at
+             judging whether <em>this</em> candidate fits <em>this</em> role.</p>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-head"><svg class="ico"><use href="#i-bolt"/></svg><h4>An honest note on calibration</h4></div>
+        <div class="card-body">
+          <p>Raw <code>stsb-roberta-base</code> output clusters low — roughly 0.5–0.6 for a strong
+             match. The service multiplies by <code>1.6</code> to spread scores across the display
+             bands. It is a presentation fix, not a trained calibration, and the code is explicit
+             about that.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================== preview -->
+<section class="section section-alt" id="preview">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-kicker">Live UI</span>
+      <h2>The interface, rebuilt here</h2>
+      <p>BMATS runs locally against a Python backend, so there is no hosted demo. This is a
+         reconstruction of the React client — pick a page from the sidebar.</p>
+    </div>
+
+    <div class="app" id="app">
+      <aside class="app-side">
+        <div class="app-brand">
+          <img src="assets/logo3.png" alt="" width="34" height="34">
+          <span>BMATS</span>
+        </div>
+        <nav class="app-menu" aria-label="App navigation">
+          <button type="button" class="app-item is-active" data-screen="jobs"><svg class="ico"><use href="#i-brief"/></svg>Jobs</button>
+          <button type="button" class="app-item" data-screen="profile"><svg class="ico"><use href="#i-user"/></svg>Profile</button>
+          <button type="button" class="app-item" data-screen="apps"><svg class="ico"><use href="#i-file"/></svg>Applications</button>
+          <button type="button" class="app-item" data-screen="track"><svg class="ico"><use href="#i-chart"/></svg>Track Postings</button>
+        </nav>
+        <div class="app-side-foot">
+          <div class="app-user"><span class="app-avatar"><svg class="ico"><use href="#i-user"/></svg></span><span>candidate_01</span></div>
+        </div>
+      </aside>
+
+      <div class="app-main">
+        <div class="app-body">
+
+          <!-- jobs -->
+          <div class="screen is-active" data-screen="jobs">
+            <header class="page-head">
+              <h3>Open Roles</h3>
+              <p>Seeded from the database and the internships API</p>
+            </header>
+            <div class="job-list">
+              <article class="job-card">
+                <div class="job-top"><h4>Software Developer Intern</h4><span class="chip">Nokia</span></div>
+                <p>Collaborate with software designers and testers to refine requirements, develop and
+                   test product features in an agile environment.</p>
+                <div class="job-meta"><span>Hybrid · Ottawa</span><span>4 months+</span><span>May – Aug 2026</span></div>
+              </article>
+              <article class="job-card">
+                <div class="job-top"><h4>Backend Engineering Intern</h4><span class="chip">Shopify</span></div>
+                <p>Design and implement RESTful APIs on high-traffic distributed systems handling
+                   millions of requests per second.</p>
+                <div class="job-meta"><span>Remote · Canada</span><span>4 months</span><span>2 positions</span></div>
+              </article>
+              <article class="job-card">
+                <div class="job-top"><h4>Machine Learning Co-op</h4><span class="chip">Google DeepMind</span></div>
+                <p>Research and implement deep learning models across NLP, computer vision and
+                   reinforcement learning.</p>
+                <div class="job-meta"><span>Hybrid · Toronto</span><span>8 months</span><span>Jan – Aug 2026</span></div>
+              </article>
+            </div>
+          </div>
+
+          <!-- profile -->
+          <div class="screen" data-screen="profile">
+            <header class="page-head">
+              <h3>Your Profile</h3>
+              <p>Built entirely from the anonymized resume — no name is stored</p>
+            </header>
+            <div class="prof-grid">
+              <div class="card">
+                <div class="card-head"><h4>Upload</h4></div>
+                <div class="card-body">
+                  <div class="drop"><svg class="ico ico-lg"><use href="#i-file"/></svg><span>candidate_resume.pdf</span><i>parsed · anonymized · stored</i></div>
+                </div>
+              </div>
+              <div class="card">
+                <div class="card-head"><h4>Extracted skills</h4><span class="count">9</span></div>
+                <div class="card-body chips">
+                  <i class="chip">python</i><i class="chip">fastapi</i><i class="chip">postgresql</i>
+                  <i class="chip">docker</i><i class="chip">pytorch</i><i class="chip">airflow</i>
+                  <i class="chip">git</i><i class="chip">rest</i><i class="chip">api</i>
+                </div>
+              </div>
+              <div class="card span-2">
+                <div class="card-head"><h4>Experience</h4></div>
+                <div class="card-body list">
+                  <div class="row">Engineered a Python service that processed 40k events/day</div>
+                  <div class="row">Built REST endpoints with FastAPI and PostgreSQL</div>
+                  <div class="row">Reduced p95 latency by 38% through query optimisation</div>
+                  <div class="row">Automated the data pipeline with Airflow and Docker</div>
+                </div>
+                <div class="card-note">Sentences kept only when they carry an action verb and exceed 30 characters.</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- applications -->
+          <div class="screen" data-screen="apps">
+            <header class="page-head">
+              <h3>Your Applications</h3>
+              <p>Track your job applications and scores</p>
+            </header>
+            <div class="app-list">
+              <article class="app-card">
+                <div class="app-card-main"><h4>Backend Engineering Intern</h4><span>Shopify</span></div>
+                <div class="score score-high"><b>81%</b><i>strong</i></div>
+                <div class="meter"><span style="width:81%"></span></div>
+              </article>
+              <article class="app-card">
+                <div class="app-card-main"><h4>Software Developer Intern</h4><span>Nokia</span></div>
+                <div class="score score-med"><b>56%</b><i>moderate</i></div>
+                <div class="meter"><span style="width:56%"></span></div>
+              </article>
+              <article class="app-card">
+                <div class="app-card-main"><h4>Machine Learning Co-op</h4><span>Google DeepMind</span></div>
+                <div class="score score-low"><b>32%</b><i>weak</i></div>
+                <div class="meter"><span style="width:32%"></span></div>
+              </article>
+            </div>
+            <div class="band-note">
+              Bands come straight from the client: <b>≥ 70%</b> high, <b>≥ 40%</b> medium, below that low.
+            </div>
+          </div>
+
+          <!-- track -->
+          <div class="screen" data-screen="track">
+            <header class="page-head">
+              <h3>Track Postings</h3>
+              <p>Applicants ranked against a role you posted</p>
+            </header>
+            <div class="card">
+              <div class="card-head"><h4>Backend Engineering Intern · Shopify</h4><span class="count">3</span></div>
+              <div class="table-scroll">
+                <table>
+                  <thead><tr><th>Candidate</th><th class="hide-sm">Top skills</th><th class="ta-r">Score</th><th>Band</th></tr></thead>
+                  <tbody>
+                    <tr><td class="mono">candidate_01</td><td class="hide-sm muted">python · fastapi · postgresql</td><td class="ta-r mono">81%</td><td><i class="tag tag-high">High</i></td></tr>
+                    <tr><td class="mono">candidate_07</td><td class="hide-sm muted">ruby · redis · microservices</td><td class="ta-r mono">74%</td><td><i class="tag tag-high">High</i></td></tr>
+                    <tr><td class="mono">candidate_04</td><td class="hide-sm muted">java · spring · sql</td><td class="ta-r mono">49%</td><td><i class="tag tag-med">Medium</i></td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="card-note">Identifiers are the stored user ids — the reviewer never receives a name.</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <p class="app-caption">Colours, spacing and radii are taken from the project's own design tokens
+       in <code>frontend/src/index.css</code>. Cards without data are inert here.</p>
+  </div>
+</section>
+
+<!-- =================================================================== api -->
+<section class="section" id="api">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-kicker">API</span>
+      <h2>Thirteen endpoints, four routers</h2>
+      <p>FastAPI with automatic OpenAPI docs at <code>/docs</code>.</p>
+    </div>
+    <div class="card">
+      <div class="table-scroll">
+        <table class="api-table">
+          <thead><tr><th>Method</th><th>Path</th><th class="hide-sm">Router</th><th>Does</th></tr></thead>
+          <tbody>
+            <tr><td><i class="verb verb-post">POST</i></td><td class="mono">/auth/sign-up</td><td class="hide-sm muted">auth</td><td>Register an account</td></tr>
+            <tr><td><i class="verb verb-post">POST</i></td><td class="mono">/auth/sign-in</td><td class="hide-sm muted">auth</td><td>Authenticate</td></tr>
+            <tr><td><i class="verb verb-post">POST</i></td><td class="mono">/users/upload-resume</td><td class="hide-sm muted">users</td><td>Parse, anonymize, extract, store</td></tr>
+            <tr><td><i class="verb verb-get">GET</i></td><td class="mono">/users/{user_id}</td><td class="hide-sm muted">users</td><td>Profile with skills and experience</td></tr>
+            <tr><td><i class="verb verb-get">GET</i></td><td class="mono">/users/{user_id}/jobs</td><td class="hide-sm muted">users</td><td>Roles posted by this user</td></tr>
+            <tr><td><i class="verb verb-post">POST</i></td><td class="mono">/users/{user_id}/jobs</td><td class="hide-sm muted">users</td><td>Post a role</td></tr>
+            <tr><td><i class="verb verb-get">GET</i></td><td class="mono">/jobs/</td><td class="hide-sm muted">jobs</td><td>List every open role</td></tr>
+            <tr><td><i class="verb verb-post">POST</i></td><td class="mono">/jobs/</td><td class="hide-sm muted">jobs</td><td>Create a role</td></tr>
+            <tr><td><i class="verb verb-get">GET</i></td><td class="mono">/jobs/{job_id}</td><td class="hide-sm muted">jobs</td><td>One role</td></tr>
+            <tr><td><i class="verb verb-post">POST</i></td><td class="mono">/applications/</td><td class="hide-sm muted">applications</td><td>Apply — scores on write</td></tr>
+            <tr><td><i class="verb verb-get">GET</i></td><td class="mono">/applications/user/{userId}</td><td class="hide-sm muted">applications</td><td>My applications</td></tr>
+            <tr><td><i class="verb verb-get">GET</i></td><td class="mono">/applications/job/{jobId}</td><td class="hide-sm muted">applications</td><td>Ranked applicants for a role</td></tr>
+            <tr><td><i class="verb verb-get">GET</i></td><td class="mono">/</td><td class="hide-sm muted">root</td><td>Service banner</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="guard-row">
+      <div class="guard"><svg class="ico"><use href="#i-shield"/></svg><p>Applying to a role you posted yourself returns <code>400</code> — checked before any scoring work happens.</p></div>
+      <div class="guard"><svg class="ico"><use href="#i-db"/></svg><p>An external internships API feeds a four-stage ETL — extract, transform, load, orchestrated by <code>job_data/pipeline.py</code> — normalising locations and salary bands into the internal job model.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================================= stack -->
+<section class="section section-alt" id="stack">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-kicker">Stack</span>
+      <h2>Built with</h2>
+    </div>
+    <div class="stack-grid">
+      <div class="stack-col"><h4>Service</h4><ul><li>Python 3.11</li><li>FastAPI</li><li>Uvicorn</li><li>Pydantic</li></ul></div>
+      <div class="stack-col"><h4>NLP / ML</h4><ul><li>spaCy · en_core_web_sm</li><li>sentence-transformers</li><li>cross-encoder/stsb-roberta-base</li><li>pdfplumber</li></ul></div>
+      <div class="stack-col"><h4>Data</h4><ul><li>SQLModel</li><li>SQLite</li><li>RapidAPI internships feed</li><li>ETL pipeline</li></ul></div>
+      <div class="stack-col"><h4>Client</h4><ul><li>React</li><li>Vite</li><li>Font Awesome</li><li>Hand-rolled CSS tokens</li></ul></div>
+    </div>
+
+    <div class="cta">
+      <div>
+        <h3>Run it locally</h3>
+        <p>The backend seeds its own sample jobs and a test user on startup, so there is something to score immediately.</p>
+      </div>
+      <div class="cta-code">
+        <code>pip install -r requirements.txt</code>
+        <code>python -m spacy download en_core_web_sm</code>
+        <code>uvicorn main:app --reload</code>
+        <span class="muted sm">→ 127.0.0.1:8000/docs</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================== footer -->
+<footer class="foot">
+  <div class="wrap foot-grid">
+    <div class="foot-brand">
+      <img src="assets/logo3.png" alt="" width="26" height="26">
+      <div>
+        <strong>BMATS</strong>
+        <span>Bias Mitigation ATS</span>
+      </div>
+    </div>
+    <nav class="foot-links" aria-label="Project links">
+      <a href="https://github.com/noahnghg/BMATS" target="_blank" rel="noopener"><svg class="ico"><use href="#i-github"/></svg>Source code</a>
+      <a href="https://devpost.com/software/hright" target="_blank" rel="noopener"><svg class="ico"><use href="#i-external"/></svg>Devpost</a>
+      <a href="https://buhariE.github.io" target="_blank" rel="noopener"><svg class="ico"><use href="#i-external"/></svg>Portfolio</a>
+    </nav>
+    <p class="foot-note">Project showcase · Built by Emmanuel Buhari</p>
+  </div>
+</footer>
+
+</body>
+</html>
