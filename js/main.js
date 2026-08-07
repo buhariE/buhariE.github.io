@@ -72,7 +72,9 @@
     + '<rect x="2.5" y="4" width="19" height="13" rx="1"/><path d="M8.5 21h7M12 17v4"/><path d="M3 4l18 12.5" opacity="0.65"/></svg>';
 
   function esc(s) { return (s || '').replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
-  function host(u) { try { return new URL(u).hostname.replace(/^www\./, ''); } catch (e) { return u; } }
+  // resolve against the current page so relative data-url values (our own
+  // hosted showcases) report a hostname instead of falling through to raw text
+  function host(u) { try { return new URL(u, location.href).hostname.replace(/^www\./, ''); } catch (e) { return u; } }
 
   function open(btn) {
     lastTrigger = btn;

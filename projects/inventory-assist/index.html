@@ -1,0 +1,582 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Inventory Assist — Project Showcase</title>
+<meta name="description" content="Inventory Assist — a role-based inventory management system for small-to-medium businesses. Multi-warehouse stock, purchase orders, reorder automation and transaction recording, built with React, TypeScript and Tailwind.">
+
+<link rel="icon" type="image/png" href="assets/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+
+<script src="js/main.js" defer></script>
+</head>
+<body>
+
+<!-- ============================================================ icon sprite -->
+<svg class="sprite" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol viewBox="0 0 24 24" id="i-dashboard"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></symbol>
+    <symbol viewBox="0 0 24 24" id="i-package"><path d="M16.5 9.4 7.5 4.21"/><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></symbol>
+    <symbol viewBox="0 0 24 24" id="i-folder"><path d="M3 5a2 2 0 0 1 2-2h3l2 2h4a2 2 0 0 1 2 2v1"/><path d="M3 5v13a2 2 0 0 0 2 2h13"/><path d="M13 12h8"/><path d="M13 17h8"/><circle cx="10" cy="12" r="1"/><circle cx="10" cy="17" r="1"/></symbol>
+    <symbol viewBox="0 0 24 24" id="i-truck"><path d="M14 18V6a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v11a1 1 0 0 0 1 1h2"/><path d="M14 9h4l4 4v4a1 1 0 0 1-1 1h-1"/><circle cx="7" cy="18" r="2"/><circle cx="17" cy="18" r="2"/></symbol>
+    <symbol viewBox="0 0 24 24" id="i-warehouse"><path d="M22 8.35V20a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V8.35A2 2 0 0 1 3.26 6.5l8-3.2a2 2 0 0 1 1.48 0l8 3.2A2 2 0 0 1 22 8.35Z"/><path d="M6 18h12"/><path d="M6 14h12"/><rect x="6" y="10" width="12" height="12"/></symbol>
+    <symbol viewBox="0 0 24 24" id="i-cart"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></symbol>
+    <symbol viewBox="0 0 24 24" id="i-refresh"><path d="M3 2v6h6"/><path d="M21 12A9 9 0 0 0 6 5.3L3 8"/><path d="M21 22v-6h-6"/><path d="M3 12a9 9 0 0 0 15 6.7l3-2.7"/></symbol>
+    <symbol viewBox="0 0 24 24" id="i-chart"><path d="M3 3v18h18"/><rect x="7" y="12" width="3" height="6"/><rect x="12" y="8" width="3" height="10"/><rect x="17" y="4" width="3" height="14"/></symbol>
+    <symbol viewBox="0 0 24 24" id="i-users"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></symbol>
+    <symbol viewBox="0 0 24 24" id="i-plus"><circle cx="12" cy="12" r="10"/><path d="M8 12h8"/><path d="M12 8v8"/></symbol>
+    <symbol viewBox="0 0 24 24" id="i-history"><path d="M3 3v5h5"/><path d="M3.05 13A9 9 0 1 0 6 5.3L3 8"/><path d="M12 7v5l4 2"/></symbol>
+    <symbol viewBox="0 0 24 24" id="i-bell"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></symbol>
+    <symbol viewBox="0 0 24 24" id="i-alert"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><path d="M12 9v4"/><path d="M12 17h.01"/></symbol>
+    <symbol viewBox="0 0 24 24" id="i-arrow-up"><circle cx="12" cy="12" r="10"/><path d="m16 12-4-4-4 4"/><path d="M12 16V8"/></symbol>
+    <symbol viewBox="0 0 24 24" id="i-download"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/></symbol>
+    <symbol viewBox="0 0 24 24" id="i-search"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></symbol>
+    <symbol viewBox="0 0 24 24" id="i-check"><path d="M20 6 9 17l-5-5"/></symbol>
+    <symbol viewBox="0 0 24 24" id="i-shield"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></symbol>
+    <symbol viewBox="0 0 24 24" id="i-layers"><path d="m12 2 9 5-9 5-9-5 9-5z"/><path d="m3 12 9 5 9-5"/><path d="m3 17 9 5 9-5"/></symbol>
+    <symbol viewBox="0 0 24 24" id="i-file"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7z"/><path d="M14 2v6h6"/><path d="M9 15h6"/><path d="M9 11h3"/></symbol>
+    <symbol viewBox="0 0 24 24" id="i-receipt"><path d="M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1z"/><path d="M8 8h8"/><path d="M8 12h8"/><path d="M8 16h5"/></symbol>
+    <symbol viewBox="0 0 24 24" id="i-github"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></symbol>
+    <symbol viewBox="0 0 24 24" id="i-external"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></symbol>
+    <symbol viewBox="0 0 24 24" id="i-menu"><path d="M4 6h16"/><path d="M4 12h16"/><path d="M4 18h16"/></symbol>
+    <symbol viewBox="0 0 24 24" id="i-arrow-right"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></symbol>
+  </defs>
+</svg>
+
+<!-- ================================================================== nav -->
+<header class="nav" id="nav">
+  <a class="nav-brand" href="#top">
+    <img src="assets/logo-small.png" alt="" width="28" height="28">
+    <span>Inventory Assist</span>
+  </a>
+  <nav class="nav-links" id="navLinks" aria-label="Sections">
+    <a href="#overview">Overview</a>
+    <a href="#preview">Live UI</a>
+    <a href="#features">Features</a>
+    <a href="#logic">Under the hood</a>
+    <a href="#stack">Stack</a>
+  </nav>
+  <div class="nav-actions">
+    <a class="btn btn-ghost" href="https://github.com/gefferyaddai/inventory-assit" target="_blank" rel="noopener">
+      <svg class="ico"><use href="#i-github"/></svg><span>Source</span>
+    </a>
+    <button class="nav-toggle" id="navToggle" type="button" aria-label="Toggle navigation" aria-expanded="false">
+      <svg class="ico"><use href="#i-menu"/></svg>
+    </button>
+  </div>
+</header>
+
+<!-- ================================================================ hero -->
+<section class="hero" id="top">
+  <div class="wrap hero-grid">
+    <div class="hero-copy">
+      <span class="pill">Full-stack · Role-based · Multi-warehouse</span>
+      <h1>Inventory management that fits <em>two very different jobs</em>.</h1>
+      <p class="lede">
+        A complete inventory system for small-to-medium businesses. Administrators configure the
+        catalogue, warehouses, suppliers and purchase orders. Floor clerks do one thing fast —
+        move stock and record it. One codebase, two surfaces, strictly separated by role.
+      </p>
+      <div class="hero-btns">
+        <a class="btn btn-primary" href="#preview">
+          Explore the interface <svg class="ico"><use href="#i-arrow-right"/></svg>
+        </a>
+        <a class="btn btn-outline" href="https://github.com/gefferyaddai/inventory-assit" target="_blank" rel="noopener">
+          <svg class="ico"><use href="#i-github"/></svg> View source
+        </a>
+      </div>
+      <div class="hero-tech">
+        <span>React 18</span><span>TypeScript</span><span>Vite</span><span>Tailwind</span>
+        <span>React Query</span><span>shadcn/ui</span>
+      </div>
+    </div>
+
+    <div class="hero-card">
+      <div class="hero-card-top">
+        <img src="assets/logo-big.png" alt="Inventory Assist logo" width="56" height="56">
+        <div>
+          <strong>Inventory Assist</strong>
+          <span>Inventory made simple</span>
+        </div>
+      </div>
+      <dl class="hero-stats">
+        <div><dt>Routes</dt><dd>15</dd></div>
+        <div><dt>Warehouses</dt><dd>3</dd></div>
+        <div><dt>Products</dt><dd>12</dd></div>
+        <div><dt>Suppliers</dt><dd>5</dd></div>
+        <div><dt>UI primitives</dt><dd>49</dd></div>
+        <div><dt>Roles</dt><dd>2</dd></div>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ overview -->
+<section class="section" id="overview">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-kicker">Overview</span>
+      <h2>Two roles, two entirely different products</h2>
+      <p>Role is not a permission checkbox bolted onto one dashboard — it decides the navigation,
+         the routes and the whole surface a user ever sees.</p>
+    </div>
+
+    <div class="role-grid">
+      <article class="role-card role-admin">
+        <header>
+          <svg class="ico ico-lg"><use href="#i-shield"/></svg>
+          <div>
+            <h3>Administrator</h3>
+            <code>/admin/*</code>
+          </div>
+        </header>
+        <p>Owns configuration. Everything that defines what the business stocks, where it lives,
+           and who supplies it.</p>
+        <ul>
+          <li>KPI dashboard with low-stock and overstock alerting</li>
+          <li>Products &amp; variants — per-variant pricing overrides</li>
+          <li>3-step CSV/XLSX bulk import with row-level validation</li>
+          <li>Categories, suppliers and lead-time tracking</li>
+          <li>Multi-warehouse stock with bin locations and capacity</li>
+          <li>Purchase orders through a five-state lifecycle</li>
+          <li>Automatic reorder suggestions → convert to PO</li>
+          <li>Excel exports, and user management with activate, deactivate and guarded delete</li>
+        </ul>
+      </article>
+
+      <article class="role-card role-clerk">
+        <header>
+          <svg class="ico ico-lg"><use href="#i-layers"/></svg>
+          <div>
+            <h3>Stock clerk</h3>
+            <code>/clerk/*</code>
+          </div>
+        </header>
+        <p>Owns operations. A deliberately narrow surface built for speed on the warehouse floor,
+           with no configuration to get lost in.</p>
+        <ul>
+          <li>Inventory browser across every warehouse</li>
+          <li>Status at a glance — OK, Low Stock, Overstock</li>
+          <li>Cart-style multi-item transaction entry</li>
+          <li>Sales, receipts, adjustments, returns, cancellations</li>
+          <li>Live stock preview before a movement is committed</li>
+          <li>Receipt generation on sales and returns</li>
+          <li>Searchable, filterable transaction history</li>
+          <li>Low-stock notification bell</li>
+        </ul>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================== preview -->
+<section class="section section-alt" id="preview">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-kicker">Live UI</span>
+      <h2>The interface, rebuilt here</h2>
+      <p>Inventory Assist runs locally against mock data, so there is no hosted demo. This is a
+         faithful reconstruction of the real screens — switch role and page to explore it.</p>
+    </div>
+
+    <div class="app" id="app">
+      <!-- sidebar -->
+      <aside class="app-side">
+        <div class="app-brand">
+          <img src="assets/logo-small.png" alt="" width="26" height="26">
+          <span>Inventory Assist</span>
+        </div>
+        <p class="app-menu-label">Menu</p>
+
+        <nav class="app-menu" data-role="admin" aria-label="Admin navigation">
+          <button type="button" class="app-item is-active" data-screen="dashboard"><svg class="ico"><use href="#i-dashboard"/></svg>Dashboard</button>
+          <button type="button" class="app-item" data-screen="products"><svg class="ico"><use href="#i-package"/></svg>Products</button>
+          <button type="button" class="app-item is-static"><svg class="ico"><use href="#i-folder"/></svg>Categories</button>
+          <button type="button" class="app-item is-static"><svg class="ico"><use href="#i-truck"/></svg>Suppliers</button>
+          <button type="button" class="app-item is-static"><svg class="ico"><use href="#i-warehouse"/></svg>Warehouses</button>
+          <button type="button" class="app-item is-static"><svg class="ico"><use href="#i-cart"/></svg>Purchase Orders</button>
+          <button type="button" class="app-item" data-screen="reorders"><svg class="ico"><use href="#i-refresh"/></svg>Reorder Suggestions <span class="badge-count">6</span></button>
+          <button type="button" class="app-item is-static"><svg class="ico"><use href="#i-chart"/></svg>Reports</button>
+          <button type="button" class="app-item is-static"><svg class="ico"><use href="#i-users"/></svg>User Management</button>
+        </nav>
+
+        <nav class="app-menu" data-role="clerk" hidden aria-label="Clerk navigation">
+          <button type="button" class="app-item is-static"><svg class="ico"><use href="#i-dashboard"/></svg>Dashboard</button>
+          <button type="button" class="app-item is-active" data-screen="inventory"><svg class="ico"><use href="#i-package"/></svg>Inventory</button>
+          <button type="button" class="app-item" data-screen="record"><svg class="ico"><use href="#i-plus"/></svg>Record Transaction</button>
+          <button type="button" class="app-item is-static"><svg class="ico"><use href="#i-history"/></svg>Transaction History</button>
+        </nav>
+      </aside>
+
+      <!-- main -->
+      <div class="app-main">
+        <div class="app-top">
+          <div class="role-switch" role="group" aria-label="Switch role">
+            <button type="button" class="is-active" data-role-btn="admin">Admin</button>
+            <button type="button" data-role-btn="clerk">Clerk</button>
+          </div>
+          <h3 class="app-title" id="appTitle">Dashboard</h3>
+          <div class="app-top-right">
+            <span class="app-bell"><svg class="ico"><use href="#i-bell"/></svg><i>8</i></span>
+            <span class="app-avatar" id="appAvatar">JW</span>
+          </div>
+        </div>
+
+        <div class="app-body">
+
+          <!-- ---------------------------------------- admin: dashboard -->
+          <div class="screen is-active" data-screen="dashboard">
+            <div class="kpi-row">
+              <div class="kpi"><span>Total Products</span><strong>11</strong><small>Active products</small><svg class="ico kpi-ico"><use href="#i-package"/></svg></div>
+              <div class="kpi"><span>Low-Stock Alerts</span><strong>8</strong><small>Below reorder point</small><svg class="ico kpi-ico"><use href="#i-alert"/></svg></div>
+              <div class="kpi"><span>Pending POs</span><strong>2</strong><small>Awaiting approval</small><svg class="ico kpi-ico"><use href="#i-cart"/></svg></div>
+              <div class="kpi"><span>Warehouses</span><strong>3</strong><small>Locations</small><svg class="ico kpi-ico"><use href="#i-warehouse"/></svg></div>
+            </div>
+
+            <div class="two-col">
+              <div class="card">
+                <div class="card-head"><svg class="ico c-warning"><use href="#i-alert"/></svg><h4>Low-Stock Alerts</h4></div>
+                <div class="card-body list">
+                  <div class="row"><span><b>Wireless Mouse</b> <em>ELC-001-WHT-S</em></span><span><code>18 left</code><i class="tag tag-warning">Low</i></span></div>
+                  <div class="row"><span><b>USB-C Hub 7-Port</b> <em>ELC-002-SLV</em></span><span><code>8 left</code><i class="tag tag-warning">Low</i></span></div>
+                  <div class="row"><span><b>Standing Desk</b> <em>FRN-001-WAL</em></span><span><code>3 left</code><i class="tag tag-warning">Low</i></span></div>
+                  <div class="row"><span><b>Monitor Arm</b> <em>FRN-003-BLK</em></span><span><code>5 left</code><i class="tag tag-warning">Low</i></span></div>
+                  <div class="row"><span><b>27" 4K Monitor</b> <em>ELC-004-BLK</em></span><span><code>7 left</code><i class="tag tag-warning">Low</i></span></div>
+                </div>
+              </div>
+
+              <div class="card">
+                <div class="card-head"><svg class="ico c-accent"><use href="#i-arrow-up"/></svg><h4>Overstock Items</h4></div>
+                <div class="card-body list">
+                  <div class="row"><span><b>Ergonomic Office Chair</b> <em>FRN-002-BLK</em></span><span><code>42 units</code><i class="tag tag-accent">Over</i></span></div>
+                  <div class="row"><span><b>Safety Goggles</b> <em>SAF-001-CLR</em></span><span><code>410 units</code><i class="tag tag-accent">Over</i></span></div>
+                </div>
+                <div class="card-note">Capacity checked against <code>maxStockLevel</code> per variant, per warehouse.</div>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-head"><h4>Recent Activity</h4><button class="mini-btn" type="button"><svg class="ico"><use href="#i-download"/></svg>Export</button></div>
+              <div class="table-scroll">
+                <table>
+                  <thead><tr><th>Type</th><th>Product</th><th class="ta-r">Qty</th><th class="hide-sm">Warehouse</th><th class="hide-sm">Clerk</th></tr></thead>
+                  <tbody>
+                    <tr><td><i class="tag tag-accent">Sale</i></td><td>Wireless Mouse</td><td class="ta-r mono">+15</td><td class="hide-sm muted">Main Distribution Center</td><td class="hide-sm muted">Maria Santos</td></tr>
+                    <tr><td><i class="tag tag-success">Receipt</i></td><td>A4 Copy Paper</td><td class="ta-r mono">+200</td><td class="hide-sm muted">Main Distribution Center</td><td class="hide-sm muted">James Lee</td></tr>
+                    <tr><td><i class="tag tag-warning">Adjustment</i></td><td>Ergonomic Office Chair</td><td class="ta-r mono">-2</td><td class="hide-sm muted">Main Distribution Center</td><td class="hide-sm muted">Maria Santos</td></tr>
+                    <tr><td><i class="tag tag-danger">Return</i></td><td>Mechanical Keyboard</td><td class="ta-r mono">+3</td><td class="hide-sm muted">Main Distribution Center</td><td class="hide-sm muted">James Lee</td></tr>
+                    <tr><td><i class="tag tag-accent">Sale</i></td><td>USB-C Hub 7-Port</td><td class="ta-r mono">+10</td><td class="hide-sm muted">Main Distribution Center</td><td class="hide-sm muted">Maria Santos</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- ----------------------------------------- admin: products -->
+          <div class="screen" data-screen="products">
+            <div class="toolbar">
+              <div class="fake-input"><svg class="ico"><use href="#i-search"/></svg><span>Search products or SKU…</span></div>
+              <div class="chips"><i class="chip is-on">All</i><i class="chip">Electronics</i><i class="chip">Office Supplies</i><i class="chip">Furniture</i><i class="chip">Cleaning</i><i class="chip">Safety</i></div>
+            </div>
+            <div class="card">
+              <div class="table-scroll">
+                <table>
+                  <thead><tr><th>SKU</th><th>Name</th><th class="hide-sm">Category</th><th class="ta-r">Unit price</th><th class="ta-r hide-sm">Reorder pt</th><th class="ta-c">Variants</th><th>Status</th></tr></thead>
+                  <tbody>
+                    <tr><td class="mono">ELC-001</td><td>Wireless Mouse</td><td class="hide-sm muted">Electronics</td><td class="ta-r mono">$29.99</td><td class="ta-r mono hide-sm">50</td><td class="ta-c"><i class="tag tag-soft">3</i></td><td><i class="tag tag-success">Active</i></td></tr>
+                    <tr><td class="mono">ELC-002</td><td>USB-C Hub 7-Port</td><td class="hide-sm muted">Electronics</td><td class="ta-r mono">$54.99</td><td class="ta-r mono hide-sm">30</td><td class="ta-c"><i class="tag tag-soft">2</i></td><td><i class="tag tag-success">Active</i></td></tr>
+                    <tr><td class="mono">ELC-003</td><td>Mechanical Keyboard</td><td class="hide-sm muted">Electronics</td><td class="ta-r mono">$89.99</td><td class="ta-r mono hide-sm">25</td><td class="ta-c"><i class="tag tag-soft">2</i></td><td><i class="tag tag-success">Active</i></td></tr>
+                    <tr><td class="mono">OFF-001</td><td>A4 Copy Paper (Ream)</td><td class="hide-sm muted">Office Supplies</td><td class="ta-r mono">$8.99</td><td class="ta-r mono hide-sm">100</td><td class="ta-c"><i class="tag tag-soft">1</i></td><td><i class="tag tag-success">Active</i></td></tr>
+                    <tr><td class="mono">FRN-001</td><td>Standing Desk</td><td class="hide-sm muted">Furniture</td><td class="ta-r mono">$449.00</td><td class="ta-r mono hide-sm">5</td><td class="ta-c"><i class="tag tag-soft">2</i></td><td><i class="tag tag-success">Active</i></td></tr>
+                    <tr><td class="mono">CLN-001</td><td>Disinfectant Spray (Case)</td><td class="hide-sm muted">Cleaning</td><td class="ta-r mono">$45.00</td><td class="ta-r mono hide-sm">20</td><td class="ta-c"><i class="tag tag-soft">1</i></td><td><i class="tag tag-success">Active</i></td></tr>
+                    <tr class="is-dim"><td class="mono">OFF-003</td><td>Desk Organizer</td><td class="hide-sm muted">Office Supplies</td><td class="ta-r mono">$24.99</td><td class="ta-r mono hide-sm">20</td><td class="ta-c"><i class="tag tag-soft">1</i></td><td><i class="tag tag-muted">Inactive</i></td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="variant-note card">
+              <div class="card-head"><h4>Variant pricing</h4></div>
+              <div class="card-body">
+                <p>Each variant may override the parent price. <code>unitPrice: null</code> inherits from the
+                   product, so a catalogue-wide price change does not silently break per-variant pricing.</p>
+                <div class="var-rows">
+                  <div><span class="mono">ELC-001-BLK-S</span><em>Standard · Black</em><b class="muted">inherits $29.99</b></div>
+                  <div><span class="mono">ELC-001-WHT-S</span><em>Standard · White</em><b>$31.99</b></div>
+                  <div><span class="mono">ELC-001-GRY-E</span><em>Ergonomic · Gray</em><b>$39.99</b></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ---------------------------------------- admin: reorders -->
+          <div class="screen" data-screen="reorders">
+            <div class="card">
+              <div class="card-head">
+                <h4>Pending Reorder Suggestions</h4>
+                <span class="muted sm">Generated nightly from reorder points</span>
+              </div>
+              <div class="table-scroll">
+                <table>
+                  <thead><tr><th>Product</th><th class="hide-sm">Warehouse</th><th class="hide-sm">Preferred supplier</th><th class="ta-r">Suggested</th><th>Status</th><th class="ta-r">Actions</th></tr></thead>
+                  <tbody>
+                    <tr><td><b>Wireless Mouse (White)</b><br><span class="mono muted sm">ELC-001-WHT-S</span></td><td class="hide-sm muted">Main Distribution Center</td><td class="hide-sm muted">TechFlow Distributors</td><td class="ta-r mono">100</td><td><i class="tag tag-warning">Pending</i></td><td class="ta-r nowrap"><button class="link-btn" type="button">Convert</button><button class="link-btn muted" type="button">Dismiss</button></td></tr>
+                    <tr><td><b>USB-C Hub (Silver)</b><br><span class="mono muted sm">ELC-002-SLV</span></td><td class="hide-sm muted">Main Distribution Center</td><td class="hide-sm muted">TechFlow Distributors</td><td class="ta-r mono">50</td><td><i class="tag tag-warning">Pending</i></td><td class="ta-r nowrap"><button class="link-btn" type="button">Convert</button><button class="link-btn muted" type="button">Dismiss</button></td></tr>
+                    <tr><td><b>Standing Desk (Walnut)</b><br><span class="mono muted sm">FRN-001-WAL</span></td><td class="hide-sm muted">Main Distribution Center</td><td class="hide-sm muted">FurnishRight Inc.</td><td class="ta-r mono">10</td><td><i class="tag tag-warning">Pending</i></td><td class="ta-r nowrap"><button class="link-btn" type="button">Convert</button><button class="link-btn muted" type="button">Dismiss</button></td></tr>
+                    <tr><td><b>27" 4K Monitor</b><br><span class="mono muted sm">ELC-004-BLK</span></td><td class="hide-sm muted">Main Distribution Center</td><td class="hide-sm muted">TechFlow Distributors</td><td class="ta-r mono">20</td><td><i class="tag tag-warning">Pending</i></td><td class="ta-r nowrap"><button class="link-btn" type="button">Convert</button><button class="link-btn muted" type="button">Dismiss</button></td></tr>
+                    <tr class="is-dim"><td><b>Monitor Arm (Black)</b><br><span class="mono muted sm">FRN-003-BLK</span></td><td class="hide-sm muted">Main Distribution Center</td><td class="hide-sm muted">FurnishRight Inc.</td><td class="ta-r mono">30</td><td><i class="tag tag-success">Converted</i></td><td class="ta-r muted sm">PO-2024-002</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="flow">
+              <div class="flow-step"><span>1</span><b>Stock falls below reorder point</b><em>qtyOnHand &lt; reorderPoint</em></div>
+              <svg class="ico flow-arrow"><use href="#i-arrow-right"/></svg>
+              <div class="flow-step"><span>2</span><b>Suggestion generated</b><em>qty targets maxStockLevel</em></div>
+              <svg class="ico flow-arrow"><use href="#i-arrow-right"/></svg>
+              <div class="flow-step"><span>3</span><b>Admin converts</b><em>grouped by preferred supplier</em></div>
+              <svg class="ico flow-arrow"><use href="#i-arrow-right"/></svg>
+              <div class="flow-step is-end"><span>4</span><b>Purchase order</b><em>Pending → Delivered</em></div>
+            </div>
+          </div>
+
+          <!-- --------------------------------------- clerk: inventory -->
+          <div class="screen" data-screen="inventory">
+            <div class="toolbar">
+              <div class="fake-input"><svg class="ico"><use href="#i-search"/></svg><span>Search inventory…</span></div>
+              <div class="chips"><i class="chip is-on">Main Distribution Center</i><i class="chip">East Coast Warehouse</i><i class="chip">West Coast Depot</i></div>
+            </div>
+            <div class="card">
+              <div class="table-scroll">
+                <table>
+                  <thead><tr><th>Product</th><th class="hide-sm">Variant SKU</th><th class="hide-sm">Bin</th><th class="ta-r">On hand</th><th class="ta-r hide-sm">Reorder pt</th><th>Status</th></tr></thead>
+                  <tbody>
+                    <tr><td>Wireless Mouse <span class="muted sm">Black</span></td><td class="mono hide-sm">ELC-001-BLK-S</td><td class="mono hide-sm">A-01-03</td><td class="ta-r mono">245</td><td class="ta-r mono hide-sm">50</td><td><i class="tag tag-success">OK</i></td></tr>
+                    <tr><td>Wireless Mouse <span class="muted sm">White</span></td><td class="mono hide-sm">ELC-001-WHT-S</td><td class="mono hide-sm">A-01-04</td><td class="ta-r mono">18</td><td class="ta-r mono hide-sm">50</td><td><i class="tag tag-warning">Low Stock</i></td></tr>
+                    <tr><td>USB-C Hub 7-Port <span class="muted sm">Silver</span></td><td class="mono hide-sm">ELC-002-SLV</td><td class="mono hide-sm">A-02-01</td><td class="ta-r mono">8</td><td class="ta-r mono hide-sm">30</td><td><i class="tag tag-warning">Low Stock</i></td></tr>
+                    <tr><td>Mechanical Keyboard <span class="muted sm">Black</span></td><td class="mono hide-sm">ELC-003-BLK</td><td class="mono hide-sm">A-03-02</td><td class="ta-r mono">132</td><td class="ta-r mono hide-sm">25</td><td><i class="tag tag-success">OK</i></td></tr>
+                    <tr><td>A4 Copy Paper <span class="muted sm">White</span></td><td class="mono hide-sm">OFF-001-WHT</td><td class="mono hide-sm">B-01-01</td><td class="ta-r mono">1,850</td><td class="ta-r mono hide-sm">100</td><td><i class="tag tag-success">OK</i></td></tr>
+                    <tr><td>Standing Desk <span class="muted sm">Walnut</span></td><td class="mono hide-sm">FRN-001-WAL</td><td class="mono hide-sm">C-01-01</td><td class="ta-r mono">3</td><td class="ta-r mono hide-sm">5</td><td><i class="tag tag-warning">Low Stock</i></td></tr>
+                    <tr><td>Ergonomic Office Chair <span class="muted sm">Black</span></td><td class="mono hide-sm">FRN-002-BLK</td><td class="mono hide-sm">C-02-01</td><td class="ta-r mono">42</td><td class="ta-r mono hide-sm">8</td><td><i class="tag tag-accent">Overstock</i></td></tr>
+                    <tr><td>Safety Goggles <span class="muted sm">Clear</span></td><td class="mono hide-sm">SAF-001-CLR</td><td class="mono hide-sm">D-02-01</td><td class="ta-r mono">410</td><td class="ta-r mono hide-sm">50</td><td><i class="tag tag-accent">Overstock</i></td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- ------------------------------------ clerk: record txn -->
+          <div class="screen" data-screen="record">
+            <div class="rec-grid">
+              <div class="card">
+                <div class="card-head"><h4>Record Transaction</h4></div>
+                <div class="card-body form">
+                  <label>Type
+                    <div class="fake-select">Sale<svg class="ico"><use href="#i-arrow-right"/></svg></div>
+                  </label>
+                  <label>Warehouse
+                    <div class="fake-select">Main Distribution Center<svg class="ico"><use href="#i-arrow-right"/></svg></div>
+                  </label>
+                  <label class="span-2">Product variant
+                    <div class="fake-select">Wireless Mouse — ELC-001-BLK-S · Black<svg class="ico"><use href="#i-arrow-right"/></svg></div>
+                  </label>
+                  <label>Quantity
+                    <div class="fake-field mono">15</div>
+                  </label>
+                  <label>Bin
+                    <div class="fake-field mono">A-01-03</div>
+                  </label>
+                  <div class="span-2 stock-preview">
+                    <span>Stock after this movement</span>
+                    <b><span class="mono">245</span> <svg class="ico"><use href="#i-arrow-right"/></svg> <span class="mono c-accent">230</span></b>
+                  </div>
+                  <p class="span-2 hint">
+                    A <b>Sale</b> that exceeds <code>qtyOnHand</code> is blocked before it reaches the cart —
+                    the submit button disables and the field flags red.
+                  </p>
+                </div>
+              </div>
+
+              <div class="card cart">
+                <div class="card-head"><h4>Cart</h4><span class="badge-count">2</span></div>
+                <div class="card-body list">
+                  <div class="cart-row">
+                    <div><b>Wireless Mouse</b><em class="mono">ELC-001-BLK-S</em></div>
+                    <div class="cart-qty"><i class="tag tag-accent">Sale</i><span class="mono">15</span></div>
+                  </div>
+                  <div class="cart-row">
+                    <div><b>Mechanical Keyboard</b><em class="mono">ELC-003-BLK</em></div>
+                    <div class="cart-qty"><i class="tag tag-accent">Sale</i><span class="mono">2</span></div>
+                  </div>
+                </div>
+                <div class="cart-foot">
+                  <button class="btn btn-accent btn-block" type="button"><svg class="ico"><use href="#i-check"/></svg>Commit 2 items</button>
+                  <p class="hint">Each cart line is written as its own <code>Transaction</code>, so history stays atomic per variant.</p>
+                </div>
+              </div>
+
+              <div class="card receipt">
+                <div class="card-head"><svg class="ico"><use href="#i-receipt"/></svg><h4>Receipt</h4></div>
+                <div class="card-body">
+                  <div class="rec-line"><span>Receipt no.</span><b class="mono">TXN-009</b></div>
+                  <div class="rec-line"><span>Type</span><b>Sale</b></div>
+                  <div class="rec-line"><span>Clerk</span><b>Maria Santos</b></div>
+                  <div class="rec-line"><span>Warehouse</span><b>Main Distribution Center</b></div>
+                  <div class="rec-sep"></div>
+                  <div class="rec-line"><span class="mono">15 × Wireless Mouse</span><b class="mono">$449.85</b></div>
+                  <div class="rec-line"><span class="mono">2 × Mech. Keyboard</span><b class="mono">$179.98</b></div>
+                  <div class="rec-sep"></div>
+                  <div class="rec-line rec-total"><span>Total</span><b class="mono">$629.83</b></div>
+                  <p class="hint">Receipts are generated for sales and returns, and a cancellation
+                     can be recorded against a receipt number.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <p class="app-caption">
+      Reconstructed from the real components — colours, spacing and radii are lifted from the
+      project's own design tokens. Sidebar items without a screen are inert here.
+    </p>
+  </div>
+</section>
+
+<!-- ============================================================= features -->
+<section class="section" id="features">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-kicker">Features</span>
+      <h2>What it actually does</h2>
+    </div>
+    <div class="feat-grid">
+      <article class="feat"><svg class="ico ico-lg"><use href="#i-package"/></svg><h3>Products &amp; variants</h3><p>Full CRUD over a catalogue where every product carries variants by size and colour, each able to override price and cost independently.</p></article>
+      <article class="feat"><svg class="ico ico-lg"><use href="#i-file"/></svg><h3>Bulk import wizard</h3><p>Three-step CSV/XLSX import: upload, validate, commit. Headers are normalized, every row is checked, and errors report per row and per field.</p></article>
+      <article class="feat"><svg class="ico ico-lg"><use href="#i-warehouse"/></svg><h3>Multi-warehouse stock</h3><p>Three locations with independent bin assignments, capacity ceilings and per-variant stock records — the same SKU can be low in one site and overstocked in another.</p></article>
+      <article class="feat"><svg class="ico ico-lg"><use href="#i-cart"/></svg><h3>Purchase orders</h3><p>Supplier-scoped orders with line items and subtotals, moving through Pending → Approved → Shipped → Delivered, with cancellation.</p></article>
+      <article class="feat"><svg class="ico ico-lg"><use href="#i-refresh"/></svg><h3>Reorder engine</h3><p>Suggestions raised automatically when stock drops under the reorder point, each tied to a preferred supplier and convertible into a PO in one action.</p></article>
+      <article class="feat"><svg class="ico ico-lg"><use href="#i-receipt"/></svg><h3>Transactions &amp; receipts</h3><p>Cart-style entry across five movement types, with a live stock preview, receipt generation, and a searchable history.</p></article>
+      <article class="feat"><svg class="ico ico-lg"><use href="#i-chart"/></svg><h3>Reports &amp; export</h3><p>Inventory and transaction data exported to Excel straight from the browser, including one-click exports off the dashboard KPI cards.</p></article>
+      <article class="feat"><svg class="ico ico-lg"><use href="#i-shield"/></svg><h3>Role-based access</h3><p>Route guards resolve the user's role and redirect to the right dashboard, so a clerk cannot reach configuration screens by typing a URL.</p></article>
+    </div>
+  </div>
+</section>
+
+<!-- =============================================================== logic -->
+<section class="section section-dark" id="logic">
+  <div class="wrap">
+    <div class="sec-head sec-head-light">
+      <span class="sec-kicker">Under the hood</span>
+      <h2>Decisions worth pointing at</h2>
+      <p>The parts that took thought rather than typing.</p>
+    </div>
+
+    <div class="logic-grid">
+      <article class="logic">
+        <h3>Validation happens before anything is written</h3>
+        <p>The import parser normalizes headers (<code>Unit Price</code> → <code>unit_price</code>), enforces
+           eleven required columns, rejects negative or fractional quantities, and catches duplicate
+           variant SKUs inside the same file. Each row is tagged <code>new</code>, <code>update</code>,
+           <code>new_category</code> or <code>error</code>, so the operator reviews the whole outcome
+           before committing a single change.</p>
+      </article>
+      <article class="logic">
+        <h3>Stock math is directional</h3>
+        <p>Movement type decides the sign: sales subtract, receipts and returns add, adjustments
+           carry their own signed quantity. The projected result is shown live while the clerk types,
+           and a sale larger than the quantity on hand is rejected at entry rather than at submit.</p>
+      </article>
+      <article class="logic">
+        <h3>Server state, not global state</h3>
+        <p>Data flows through TanStack React Query rather than a hand-rolled store. Today it resolves
+           from an in-memory mock module; swapping in a real API means changing the query functions
+           and nothing else in the component tree.</p>
+      </article>
+      <article class="logic">
+        <h3>Status is derived, never stored</h3>
+        <p>OK, Low Stock and Overstock are computed from <code>qtyOnHand</code> against the variant's
+           <code>reorderPoint</code> and <code>maxStockLevel</code>. There is no status column to fall
+           out of sync with the number it describes.</p>
+      </article>
+    </div>
+
+    <div class="code-block">
+      <div class="code-head"><span class="mono">src/data/mockData.ts</span><span class="muted sm">core models</span></div>
+<pre><code><span class="c-key">type</span> <span class="c-type">TransactionType</span> = <span class="c-str">"Sale"</span> | <span class="c-str">"Receipt"</span> | <span class="c-str">"Adjustment"</span> | <span class="c-str">"Return"</span> | <span class="c-str">"Cancel"</span>;
+
+<span class="c-key">interface</span> <span class="c-type">WarehouseStock</span> {
+  productVariantId: <span class="c-type">string</span>;
+  qtyOnHand:        <span class="c-type">number</span>;
+  binLocation:      <span class="c-type">string</span>;
+  reorderPoint:     <span class="c-type">number</span>;
+  maxStockLevel:    <span class="c-type">number</span>;
+  status:           <span class="c-str">"OK"</span> | <span class="c-str">"Low Stock"</span> | <span class="c-str">"Overstock"</span>;
+}
+
+<span class="c-cmt">// a variant price of null inherits the parent product price</span>
+<span class="c-key">interface</span> <span class="c-type">ProductVariant</span> {
+  variantSku: <span class="c-type">string</span>;
+  size:       <span class="c-type">string</span>;
+  color:      <span class="c-type">string</span>;
+  unitPrice:  <span class="c-type">number</span> | <span class="c-key">null</span>;
+  costPrice:  <span class="c-type">number</span> | <span class="c-key">null</span>;
+}</code></pre>
+    </div>
+  </div>
+</section>
+
+<!-- =============================================================== stack -->
+<section class="section" id="stack">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-kicker">Stack</span>
+      <h2>Built with</h2>
+    </div>
+    <div class="stack-grid">
+      <div class="stack-col"><h4>Core</h4><ul><li>React 18.3</li><li>TypeScript 5</li><li>Vite 8</li><li>React Router 6</li></ul></div>
+      <div class="stack-col"><h4>State &amp; forms</h4><ul><li>TanStack React Query 5</li><li>React Hook Form 7</li><li>Zod</li><li>Context API</li></ul></div>
+      <div class="stack-col"><h4>Interface</h4><ul><li>Tailwind CSS 3.4</li><li>shadcn/ui · Radix</li><li>Recharts</li><li>Lucide · Sonner</li></ul></div>
+      <div class="stack-col"><h4>Data &amp; tests</h4><ul><li>PapaParse · XLSX</li><li>Vitest</li><li>Testing Library</li><li>Playwright</li></ul></div>
+    </div>
+
+    <div class="cta">
+      <div>
+        <h3>Run it locally</h3>
+        <p>No backend, no environment variables — it boots on mock data and signs you in with one click.</p>
+      </div>
+      <div class="cta-code">
+        <code>git clone …/inventory-assit</code>
+        <code>npm install</code>
+        <code>npm run dev</code>
+        <span class="muted sm">→ localhost:8080</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================== footer -->
+<footer class="foot">
+  <div class="wrap foot-grid">
+    <div class="foot-brand">
+      <img src="assets/logo-small.png" alt="" width="24" height="24">
+      <div>
+        <strong>Inventory Assist</strong>
+        <span>Inventory made simple</span>
+      </div>
+    </div>
+    <nav class="foot-links" aria-label="Project links">
+      <a href="https://github.com/gefferyaddai/inventory-assit" target="_blank" rel="noopener"><svg class="ico"><use href="#i-github"/></svg>Source code</a>
+      <a href="https://buhariE.github.io" target="_blank" rel="noopener"><svg class="ico"><use href="#i-external"/></svg>Portfolio</a>
+    </nav>
+    <p class="foot-note">Project showcase · Built by Emmanuel Buhari</p>
+  </div>
+</footer>
+
+</body>
+</html>

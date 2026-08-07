@@ -229,6 +229,14 @@ section:first-of-type { border-top: 0; }
 .plate-head { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin-bottom: 6px; }
 .plate-id { font-family: var(--mono); font-size: 12px; letter-spacing: 0.14em; color: var(--accent-ink); }
 .plate h3 { font-family: var(--mono); font-weight: 600; font-size: clamp(1.35rem, 3vw, 1.9rem); letter-spacing: -0.01em; margin: 0; }
+/* version tag on a plate title — reads as a revision stamp, not part of the name */
+.plate h3 .ver {
+  display: inline-block; vertical-align: middle; transform: translateY(-2px);
+  margin-left: 6px; padding: 2px 7px;
+  border: 1px solid var(--line); border-radius: 2px;
+  font-size: 0.44em; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--accent-ink);
+}
 .plate-actions { margin-left: auto; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
 .plate-role { font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-faint); }
 .preview-btn {
